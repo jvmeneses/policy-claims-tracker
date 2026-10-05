@@ -1,0 +1,6 @@
+-- TODO(you): CREATE OR ALTER VIEW vw_PolicyLossRatio
+-- Columns: policy_id, policy_number, type, premium_amount, total_approved, loss_ratio, rank_in_type
+-- Hints:
+--   * CTE: SUM(approved_amount) per policy for APPROVED claims (LEFT JOIN so policies with no claims show 0)
+--   * loss_ratio = total_approved / premium_amount  (watch DECIMAL division + NULLs: COALESCE)
+--   * RANK() OVER (PARTITION BY type ORDER BY loss_ratio DESC) AS rank_in_type

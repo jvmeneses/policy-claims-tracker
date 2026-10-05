@@ -1,0 +1,11 @@
+-- TODO(you): CREATE OR ALTER PROCEDURE usp_ApproveClaim
+--   @ClaimId BIGINT, @ApprovedAmount DECIMAL(12,2), @ReviewerNote NVARCHAR(1000)
+-- Hints:
+--   * SET XACT_ABORT ON; BEGIN TRY / BEGIN TRANSACTION ... COMMIT / END TRY
+--   * Lock the claim row: SELECT ... FROM claim WITH (UPDLOCK, ROWLOCK) WHERE id = @ClaimId
+--   * THROW 50001 if claim missing, 50002 if status <> 'UNDER_REVIEW'
+--   * Rule 5: @ApprovedAmount > 0 AND <= claim_amount  -> THROW 50003
+--   * Rule 4: SUM(approved_amount) of other APPROVED claims on the same policy + @ApprovedAmount
+--             must be <= policy.coverage_limit -> THROW 50004
+--   * UPDATE claim SET status='APPROVED', approved_amount=..., reviewer_note=...
+--   * CATCH: IF @@TRANCOUNT > 0 ROLLBACK; THROW;

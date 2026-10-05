@@ -1,0 +1,2 @@
+-- TODO(you): nonclustered index IX_claim_status_filed_at ON claim(status, filed_at) INCLUDE (policy_id, claim_amount)
+-- Add a comment: which query (claims queue filtered by status, newest first) does this serve, and why INCLUDE?

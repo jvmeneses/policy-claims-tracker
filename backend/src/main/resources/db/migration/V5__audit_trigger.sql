@@ -1,0 +1,6 @@
+-- TODO(you): CREATE OR ALTER TRIGGER trg_claim_status_audit ON claim AFTER UPDATE
+-- Hints:
+--   * IF NOT UPDATE(status) RETURN;
+--   * INSERT INTO claim_audit(claim_id, old_status, new_status)
+--     SELECT i.id, d.status, i.status FROM inserted i JOIN deleted d ON d.id = i.id WHERE i.status <> d.status;
+--   * Triggers are set-based: never assume a single row.

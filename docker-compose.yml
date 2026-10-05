@@ -1,0 +1,19 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64   # Apple Silicon: enable Rosetta in Docker Desktop
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_strong_Passw0rd"
+    ports: ["1433:1433"]
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P Your_strong_Passw0rd -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      retries: 12
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    depends_on:
+      db: { condition: service_healthy }
+    command: /opt/mssql-tools18/bin/sqlcmd -C -S db -U sa -P Your_strong_Passw0rd -Q "IF DB_ID('claimsdb') IS NULL CREATE DATABASE claimsdb"
+  # TODO(you, Phase 5): add backend + frontend services once you write Dockerfiles

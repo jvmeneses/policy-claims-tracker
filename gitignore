@@ -1,0 +1,65 @@
+# ---------- Java / Maven ----------
+backend/target/
+**/target/
+*.class
+*.jar
+*.war
+*.log
+hs_err_pid*
+.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# ---------- Gradle (in case you switch) ----------
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ---------- Angular / Node ----------
+frontend/node_modules/
+**/node_modules/
+frontend/dist/
+frontend/.angular/
+**/.angular/
+frontend/out-tsc/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# ---------- IDEs ----------
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.sts4-cache/
+.springBeans
+nbproject/
+*.code-workspace
+
+# ---------- Environment & secrets ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+application-local.yml
+application-local.properties
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Local database / temp ----------
+*.mdf
+*.ldf
+*.bak
+*.tmp
+*.swp
+*~
