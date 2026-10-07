@@ -3,6 +3,7 @@ package com.example.claims.service;
 import static com.example.claims.dto.Dtos.*;
 
 import com.example.claims.domain.*;
+import com.example.claims.exception.BusinessRuleException;
 import com.example.claims.exception.NotFoundException;
 import com.example.claims.repo.*;
 import java.util.UUID;
@@ -30,7 +31,10 @@ public class PolicyService {
 
     @Transactional
     public PolicyResponse create(CreatePolicyRequest req) {
-        // TODO(you): reject if endDate is not after startDate (throw BusinessRuleException)
+        if (!req.endDate().isAfter(req.startDate())) {
+            throw new BusinessRuleException("End date must be after start date.");
+        }
+
         Policyholder holder = holders.findById(req.policyholderId())
             .orElseThrow(() -> new NotFoundException("Policyholder " + req.policyholderId() + " not found"));
         Policy p = new Policy();
