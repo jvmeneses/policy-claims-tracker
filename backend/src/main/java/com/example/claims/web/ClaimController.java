@@ -10,6 +10,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +20,15 @@ import org.springframework.web.bind.annotation.*;
 public class ClaimController {
     private final ClaimService service;
 
+    /** incidentFrom / incidentTo filter on the incident date (inclusive). Default sort: newest filed first. */
     @GetMapping
     public Page<ClaimResponse> search(
             @RequestParam(required = false) ClaimStatus status,
             @RequestParam(required = false) Long policyId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-            Pageable pageable) {
-        return service.search(status, policyId, from, to, pageable);
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate incidentFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate incidentTo,
+            @PageableDefault(size = 20, sort = "filedAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return service.search(status, policyId, incidentFrom, incidentTo, pageable);
     }
 
     @GetMapping("/{id}") public ClaimResponse get(@PathVariable Long id) { return service.get(id); }

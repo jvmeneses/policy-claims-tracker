@@ -15,13 +15,9 @@ grep -rn "TODO(you)" backend/src
 ```
 
 ## Suggested order
-1. `V2__procedures.sql`  `usp_ApproveClaim`
-2. `V3__views.sql`  `vw_PolicyLossRatio`
-3. `V4__indexes.sql`, `V5__audit_trigger.sql`
-4. `ClaimStatus.canTransitionTo`  then `ClaimService` methods
-5. `ClaimService.search` (Specification), `ReportController`
-6. Tests (`ClaimStatusTest`, `ClaimServiceTest`, `ClaimApprovalIT`)
-7. Angular frontend (scaffold coming next)
+1. `PolicyService` checking of endDate implementation
+2. Tests (`ClaimStatusTest`, `ClaimServiceTest`, `ClaimApprovalIT`)
+3. Angular frontend (scaffold coming next)
 
 ## Design notes
 _TODO(you): why the approval logic lives in T-SQL, trade-offs, what you'd do next._
