@@ -1,0 +1,77 @@
+<div class="page-header">
+  <div>
+    <h1>Claims</h1>
+    <p>Search and monitor the claim lifecycle.</p>
+  </div>
+</div>
+
+<div class="card filters">
+  <div class="field">
+    <label for="status">Status</label>
+    <select id="status" [(ngModel)]="status">
+      <option value="">All statuses</option>
+      <option value="SUBMITTED">Submitted</option>
+      <option value="UNDER_REVIEW">Under review</option>
+      <option value="APPROVED">Approved</option>
+      <option value="REJECTED">Rejected</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="policyId">Policy ID</label>
+    <input id="policyId" type="number" min="1" [(ngModel)]="policyId" placeholder="e.g. 1">
+  </div>
+
+  <div class="field">
+    <label for="from">Incident from</label>
+    <input id="from" type="date" [(ngModel)]="incidentFrom">
+  </div>
+
+  <div class="field">
+    <label for="to">Incident to</label>
+    <input id="to" type="date" [(ngModel)]="incidentTo">
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" type="button" (click)="load()">Search</button>
+    <button class="btn btn-secondary" type="button" (click)="clearFilters()">Clear</button>
+  </div>
+</div>
+
+<div class="card">
+  @if (loading()) {
+    <div class="state">Loading claims…</div>
+  } @else if (error()) {
+    <div class="state error">{{ error() }}</div>
+  } @else if (page(); as result) {
+    @if (result.content.length === 0) {
+      <div class="state">No claims match your filters.</div>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Claim</th><th>Policy</th><th>Description</th><th>Claim amount</th><th>Incident</th><th>Status</th><th>Approved</th></tr>
+          </thead>
+          <tbody>
+            @for (claim of result.content; track claim.id) {
+              <tr>
+                <td>{{ claim.claimNumber }}</td>
+                <td>{{ claim.policyNumber }}</td>
+                <td class="description">{{ claim.description }}</td>
+                <td>{{ claim.claimAmount | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ claim.incidentDate | date:'mediumDate' }}</td>
+                <td><span class="badge badge-{{ claim.status.toLowerCase() }}">{{ claim.status.replace('_', ' ') }}</span></td>
+                <td>{{ claim.approvedAmount == null ? '—' : (claim.approvedAmount | currency:'PHP':'symbol':'1.2-2') }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <button class="btn btn-secondary" [disabled]="result.first" (click)="load(result.number - 1)">Previous</button>
+        <span>Page {{ result.number + 1 }} of {{ result.totalPages || 1 }} · {{ result.totalElements }} total</span>
+        <button class="btn btn-secondary" [disabled]="result.last" (click)="load(result.number + 1)">Next</button>
+      </div>
+    }
+  }
+</div>

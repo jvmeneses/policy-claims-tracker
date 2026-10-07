@@ -1,0 +1,32 @@
+<div class="page-header">
+  <div>
+    <h1>Loss Ratio</h1>
+    <p>Approved payouts divided by premium, ranked within each policy type.</p>
+  </div>
+</div>
+
+<div class="card">
+  @if (loading()) {
+    <div class="state">Loading report…</div>
+  } @else if (error()) {
+    <div class="state error">{{ error() }}</div>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rank</th><th>Policy</th><th>Type</th><th>Premium</th><th>Approved payouts</th><th>Loss ratio</th></tr></thead>
+        <tbody>
+          @for (row of rows(); track row.policyId) {
+            <tr>
+              <td>#{{ row.rankInType }}</td>
+              <td>{{ row.policyNumber }}</td>
+              <td>{{ row.type }}</td>
+              <td>{{ row.premiumAmount | currency:'PHP':'symbol':'1.2-2' }}</td>
+              <td>{{ row.totalApproved | currency:'PHP':'symbol':'1.2-2' }}</td>
+              <td><strong>{{ row.lossRatio | percent:'1.2-2' }}</strong></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

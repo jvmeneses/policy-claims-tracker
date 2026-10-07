@@ -1,0 +1,37 @@
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" routerLink="/dashboard">
+      <span class="brand-mark">PC</span>
+      <span>
+        <strong>Policy & Claims</strong>
+        <small>Insurance Tracker</small>
+      </span>
+    </a>
+
+    <nav>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/policies" routerLinkActive="active">Policies</a>
+      <a routerLink="/claims" routerLinkActive="active">Claims</a>
+      <a routerLink="/reports/loss-ratio" routerLinkActive="active">Loss Ratio</a>
+    </nav>
+
+    <div class="sidebar-note">
+      <span>Backend</span>
+      <strong>Spring Boot + SQL Server</strong>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <strong>Insurance Operations</strong>
+        <span>Policy and claims management</span>
+      </div>
+      <span class="api-pill">API: localhost:8080</span>
+    </header>
+
+    <section class="content">
+      <router-outlet />
+    </section>
+  </main>
+</div>

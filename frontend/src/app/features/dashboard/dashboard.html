@@ -1,0 +1,57 @@
+<div class="page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Quick view of your policies, claims, and reporting data.</p>
+  </div>
+</div>
+
+@if (error()) {
+  <div class="card state error">{{ error() }}</div>
+} @else if (loading()) {
+  <div class="card state">Loading dashboard…</div>
+} @else {
+  <section class="stats">
+    <a class="card stat" routerLink="/policies">
+      <span>Policies</span>
+      <strong>{{ totalPolicies() }}</strong>
+      <small>View policy records</small>
+    </a>
+    <a class="card stat" routerLink="/claims">
+      <span>Claims</span>
+      <strong>{{ totalClaims() }}</strong>
+      <small>Track claim workflow</small>
+    </a>
+    <a class="card stat" routerLink="/reports/loss-ratio">
+      <span>Loss ratio rows</span>
+      <strong>{{ reportRows() }}</strong>
+      <small>Review portfolio performance</small>
+    </a>
+  </section>
+
+  <section class="card recent">
+    <div class="section-title">
+      <div>
+        <h2>Recent claims</h2>
+        <p>Uses the backend's default newest-filed-first sort.</p>
+      </div>
+      <a routerLink="/claims">View all</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Claim</th><th>Policy</th><th>Amount</th><th>Filed</th><th>Status</th></tr></thead>
+        <tbody>
+          @for (claim of latestClaims(); track claim.id) {
+            <tr>
+              <td>{{ claim.claimNumber }}</td>
+              <td>{{ claim.policyNumber }}</td>
+              <td>{{ claim.claimAmount | currency:'PHP':'symbol':'1.2-2' }}</td>
+              <td>{{ claim.filedAt | date:'mediumDate' }}</td>
+              <td><span class="badge badge-{{ claim.status.toLowerCase() }}">{{ claim.status.replace('_', ' ') }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

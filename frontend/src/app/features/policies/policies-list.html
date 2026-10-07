@@ -1,0 +1,53 @@
+<div class="page-header">
+  <div>
+    <h1>Policies</h1>
+    <p>View insurance policies and coverage information.</p>
+  </div>
+</div>
+
+<div class="card filters policy-filter">
+  <div class="field">
+    <label for="policyStatus">Status</label>
+    <select id="policyStatus" [(ngModel)]="status">
+      <option value="">All statuses</option>
+      <option value="ACTIVE">Active</option>
+      <option value="EXPIRED">Expired</option>
+      <option value="CANCELLED">Cancelled</option>
+    </select>
+  </div>
+  <div class="actions">
+    <button class="btn btn-primary" type="button" (click)="load()">Apply</button>
+  </div>
+</div>
+
+<div class="card">
+  @if (loading()) {
+    <div class="state">Loading policies…</div>
+  } @else if (error()) {
+    <div class="state error">{{ error() }}</div>
+  } @else if (page(); as result) {
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Policy</th><th>Holder</th><th>Type</th><th>Premium</th><th>Coverage</th><th>Period</th><th>Status</th></tr></thead>
+        <tbody>
+          @for (policy of result.content; track policy.id) {
+            <tr>
+              <td>{{ policy.policyNumber }}</td>
+              <td>{{ policy.holderName }}</td>
+              <td>{{ policy.type }}</td>
+              <td>{{ policy.premiumAmount | currency:'PHP':'symbol':'1.2-2' }}</td>
+              <td>{{ policy.coverageLimit | currency:'PHP':'symbol':'1.2-2' }}</td>
+              <td>{{ policy.startDate | date:'mediumDate' }} – {{ policy.endDate | date:'mediumDate' }}</td>
+              <td><span class="badge badge-{{ policy.status.toLowerCase() }}">{{ policy.status }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button class="btn btn-secondary" [disabled]="result.first" (click)="load(result.number - 1)">Previous</button>
+      <span>Page {{ result.number + 1 }} of {{ result.totalPages || 1 }} · {{ result.totalElements }} total</span>
+      <button class="btn btn-secondary" [disabled]="result.last" (click)="load(result.number + 1)">Next</button>
+    </div>
+  }
+</div>
